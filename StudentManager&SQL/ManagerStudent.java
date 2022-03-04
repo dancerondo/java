@@ -30,7 +30,7 @@ public class ManagerStudent {
         Student std = new Student();
         std.inputStudent();
         try{
-            try (Connection conn = getConnection(DB_URL,USERNAME,PASSWORD)) {
+            Connection conn = getConnection(DB_URL,USERNAME,PASSWORD);
                 String SQL = "INSERT INTO Student VALUES(?,?,?,?)";
                 PreparedStatement pstmt = conn.prepareStatement(SQL);
                 pstmt.setString(1, std.getRollNumber());
@@ -39,7 +39,8 @@ public class ManagerStudent {
                 pstmt.setString(4, std.getPhoneNumBer());
                 pstmt.executeUpdate();
                 //Close connection
-            }
+                conn.close();
+            
         }
         catch(SQLException ex){
         }
@@ -61,13 +62,14 @@ public class ManagerStudent {
             }
         }   
         catch(SQLException ex){
+            ex.printStackTrace();
         }        
     }
     //3.displayListStudent Method
     public static void displayListStudent(){
         String SQL = "SELECT * FROM Student";
         try{
-            try (Connection conn = getConnection(DB_URL, USERNAME, PASSWORD)) {
+            Connection conn = getConnection(DB_URL, USERNAME, PASSWORD);
                 Statement stmt = conn.createStatement();
                 ResultSet rs =  stmt.executeQuery(SQL);
                 while (rs.next()) {
@@ -75,9 +77,10 @@ public class ManagerStudent {
                             rs.getString(3) + "  " + rs.getString(4));
                 }
                 //Close Connection
-            }
+                conn.close();            
         }
         catch(SQLException ex){
+            ex.printStackTrace();
         }
     }
     //4.AVG Sccore for Student and add to Ranking
@@ -112,25 +115,27 @@ public class ManagerStudent {
                 pstmt2.setString(1, "fail");
                 pstmt2.executeUpdate();
                 //Close connection
+                conn.close();
             }
         }
         catch(SQLException ex){
+            ex.printStackTrace();
         }
     }
     //5.Display Ranking Table
     public static void displayRanking(){
         String SQL = "SELECT * FROM Ranking";
         try{
-            try (Connection conn = getConnection(DB_URL, USERNAME, PASSWORD)) {
+            Connection conn = getConnection(DB_URL, USERNAME, PASSWORD);
                 Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(SQL);
                 while(rs.next()){
                     System.out.println(rs.getString(1) + " " + rs.getFloat(2) + "   "
                             + rs.getString(3));
-                }
-            }
+                }            
         }
         catch(SQLException ex){
+            ex.printStackTrace();
         }
     }
     
