@@ -30,7 +30,7 @@ public class ManagerStudent {
         Student std = new Student();
         std.inputStudent();
         try{
-            Connection conn = getConnection(DB_URL,USERNAME,PASSWORD);
+                Connection conn = getConnection(DB_URL,USERNAME,PASSWORD); 
                 String SQL = "INSERT INTO Student VALUES(?,?,?,?)";
                 PreparedStatement pstmt = conn.prepareStatement(SQL);
                 pstmt.setString(1, std.getRollNumber());
@@ -40,9 +40,10 @@ public class ManagerStudent {
                 pstmt.executeUpdate();
                 //Close connection
                 conn.close();
-            
-        }
+            }
+        
         catch(SQLException ex){
+            ex.printStackTrace();
         }
         
     }
@@ -51,7 +52,7 @@ public class ManagerStudent {
         Scores score = new Scores();
         score.inputScores();
         try{
-            try (Connection conn = getConnection(DB_URL, USERNAME, PASSWORD)) {
+                Connection conn = getConnection(DB_URL, USERNAME, PASSWORD);
                 String SQL = "INSERT INTO Scores VALUES(?,?,?)";
                 PreparedStatement pstmt = conn.prepareStatement(SQL);
                 pstmt.setString(1, score.getRollNumber());
@@ -59,8 +60,9 @@ public class ManagerStudent {
                 pstmt.setFloat(3, score.getScore());
                 pstmt.executeUpdate();
                 //Close connection
+                conn.close();
             }
-        }   
+           
         catch(SQLException ex){
             ex.printStackTrace();
         }        
@@ -69,7 +71,7 @@ public class ManagerStudent {
     public static void displayListStudent(){
         String SQL = "SELECT * FROM Student";
         try{
-            Connection conn = getConnection(DB_URL, USERNAME, PASSWORD);
+                Connection conn = getConnection(DB_URL, USERNAME, PASSWORD);
                 Statement stmt = conn.createStatement();
                 ResultSet rs =  stmt.executeQuery(SQL);
                 while (rs.next()) {
@@ -77,8 +79,9 @@ public class ManagerStudent {
                             rs.getString(3) + "  " + rs.getString(4));
                 }
                 //Close Connection
-                conn.close();            
-        }
+                conn.close();
+            }
+        
         catch(SQLException ex){
             ex.printStackTrace();
         }
@@ -97,7 +100,7 @@ public class ManagerStudent {
         String SQL1 = "UPDATE Ranking SET Ranking = ? WHERE averageScore >= 5";
         String SQL2 = "UPDATE Ranking SET Ranking = ? WHERE averageScore < 5";
         try{
-            try (Connection conn = getConnection(DB_URL, USERNAME, PASSWORD)) {
+                Connection conn = getConnection(DB_URL, USERNAME, PASSWORD);
                 Statement stmt = conn.createStatement();
                 //Insert into Ranking table
                 PreparedStatement pstmt = conn.prepareStatement(SQL);
@@ -117,23 +120,24 @@ public class ManagerStudent {
                 //Close connection
                 conn.close();
             }
-        }
+        
         catch(SQLException ex){
-            ex.printStackTrace();
         }
     }
     //5.Display Ranking Table
     public static void displayRanking(){
         String SQL = "SELECT * FROM Ranking";
         try{
-            Connection conn = getConnection(DB_URL, USERNAME, PASSWORD);
+                Connection conn = getConnection(DB_URL, USERNAME, PASSWORD);
                 Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(SQL);
                 while(rs.next()){
                     System.out.println(rs.getString(1) + " " + rs.getFloat(2) + "   "
                             + rs.getString(3));
-                }            
-        }
+                }
+                 //close connection
+                 conn.close();
+            }                 
         catch(SQLException ex){
             ex.printStackTrace();
         }

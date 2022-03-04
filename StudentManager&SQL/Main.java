@@ -33,8 +33,8 @@ public class Main {
             System.out.println("Enter Your PassWord");
             pass = input.nextLine();        
             try{
-                   //Connect to data StudentDB_TranThanhSon
-                   Connection conn = getConnection(DB_URL, USERNAME, PASSWORD); 
+                    //Connect to data StudentDB_TranThanhSon
+                    Connection conn = getConnection(DB_URL, USERNAME, PASSWORD); 
                     //Create Statement
                     Statement stmt = conn.createStatement();
                     //get data from Accounts
@@ -77,6 +77,7 @@ public class Main {
                     conn.close();
                 }
             catch(SQLException ex){
+                ex.printStackTrace();
             }       
         }
         while(flag);
